@@ -1,0 +1,33 @@
+[
+
+ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRjM2Q1NTlkMjg5OTJjNTlmZGNlYjUiLCJpYXQiOjE3MzMwNDk3MTN9.wRXCOZiDuT-Xe6AcoApVwG4EVYOsgVv0bRV48USDq4k
+]
+  "scripts": {
+    "start": "index.js",
+    "build": "npm i"
+  },
+User Registration
+User Login
+User Logout
+Password Reset
+Fetch Profile
+Update Profile
+List Exams
+Exam Details
+Start Exam
+Submit Exam
+List Resources
+Resource Details
+Create Payment Intent
+Confirm Payment
+Contact or Feedback Submission
+Search API
+notice
+ads
+testimonials
+books
+cources
+
+
+
+
