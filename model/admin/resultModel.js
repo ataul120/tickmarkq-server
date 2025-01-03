@@ -34,11 +34,7 @@ const ResultSchema = new mongoose.Schema({
     totalMark: {
         type: Number,
         required: true
-    },
-    isComplete: {
-        type: Boolean,
-        default: false
-    },
+    }, 
 
 }, { timestamps: true });
 

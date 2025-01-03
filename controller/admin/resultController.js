@@ -1,3 +1,4 @@
+import QuestionModel from "../../model/admin/adminQustionModel.js";
 import ResultModel from "../../model/admin/resultModel.js"
 import usersModel from "../../model/users/usersModel.js";
 
@@ -5,6 +6,7 @@ const submitQuestionAndMakeResult = async (req, res) => {
     const { userId } = req;
     try {
         const {
+            questionId, // just find question and update his isSubmit Field
             courseId,
             questionCategory,
             questionTitle,
@@ -14,30 +16,25 @@ const submitQuestionAndMakeResult = async (req, res) => {
             totalMark
         } = req.body;
 
-        //  <========== check userAccount  ================>
-        const user = await usersModel.findById(userId);
+        //  <========== check Queation for Update IsSubmited Field  ================>
+        const [question] = await Promise.all([
+            QuestionModel.findById(questionId)
+        ])
 
-        if (!user) {
+        // <======== Question Paper Check Here =========>
+        if (!question) {
             return res.status(404).json({
-                message: "User Not Found!"
+                message: "Question not Exist!"
             });
         }
 
+
         // <========= Check if a submission already exists for the user, course, and title ========>  
-        // const isExistExam = await ResultModel.findOne({
-        //     user: userId,
-        //     questionTitle: questionTitle,
-        //     isComplete: true
-        // });
+        if (question.attemptedUsers.includes(userId)) {
+            return res.status(400).json({ message: "You have already attempted this question." });
+        }
 
-        // // If the user has already completed the exam for this course and title, do not allow another submission
-        // if (isExistExam) {
-        //     return res.status(400).json({
-        //         message: "You have already completed this exam."
-        //     });
-        // }
 
-        // <========== If a new question ID is provided, it should be considered a new exam ========>  
         const newResult = new ResultModel({
             user: userId,
             courseId,
@@ -47,11 +44,12 @@ const submitQuestionAndMakeResult = async (req, res) => {
             rightAnswers,
             wrongAnswers,
             totalMark,
-            isComplete: true
         });
 
         const result = await newResult.save();
         await usersModel.findByIdAndUpdate(userId, { $push: { results: result._id } });
+        await QuestionModel.findByIdAndUpdate(questionId, { $push: { attemptedUsers: userId } });
+
 
         res.status(201).json({
             message: "Question submitted successfully."
@@ -86,6 +84,7 @@ const getMyResult = async (req, res) => {
     const { userId } = req
     try {
         const myResult = await ResultModel.find({ user: userId })
+            .sort({ createdAt: -1 });
 
         if (!myResult) {
             res.status(404).json({ message: "Your Result not found!" })

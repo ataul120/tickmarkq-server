@@ -135,7 +135,7 @@ const getUserCourses = async (req, res) => {
     try {
         const { userId } = req;
 
-  
+
         const purchase = await purchaseModel.findOne({ userId: userId });
 
         if (!purchase) {
@@ -143,13 +143,16 @@ const getUserCourses = async (req, res) => {
         }
 
         // Fetch the course and populate questions
-        const course = await CourseModel.findOne({ _id: purchase.courseId, access: userId }).populate("questions");
+        const MyCourse = await CourseModel.findOne({ _id: purchase.courseId, access: userId }).populate("questions");
 
-        if (!course) {
+        if (!MyCourse) {
             return res.status(404).json({ message: "Course not found or access denied" });
         }
 
-        res.status(200).json( course);
+        const MyQuestions = MyCourse.questions?.filter(qs => qs.attemptedUsers && !qs.attemptedUsers.includes(userId));
+
+        // <<<<<<< course and his Questions return >>>>>>>>>>>>>
+        res.status(200).json({ course: MyCourse, questions: MyQuestions });
 
 
     } catch (error) {
@@ -159,53 +162,28 @@ const getUserCourses = async (req, res) => {
 
 
 // <======== user er purchase course o payment history ==========>
-const getCousePaymentHistory = async(req , res)=>{
-     try {
-        const {userId} = req;
-        const userPayment = await purchaseModel.findOne({userId}).populate("courseId");
-        
+const getCousePaymentHistory = async (req, res) => {
+    try {
+        const { userId } = req;
+        const userPayment = await purchaseModel.findOne({ userId }).populate("courseId");
+
         if (!userPayment) {
-             res.status(404).json({
-                message :"You have No Purchase!",
-             })
+            res.status(404).json({
+                message: "You have No Purchase!",
+            })
         }
 
         res.status(200).json(userPayment)
 
-     } catch (error) {
-          res.status(500).json({
-            message :"Payment History Fetching Problem"
-          })
-     }
+    } catch (error) {
+        res.status(500).json({
+            message: "Payment History Fetching Problem"
+        })
+    }
 }
 
 
-export { purchaseCourse, getUserCourses , getCousePaymentHistory }
-
-
-////!SECTION  
-
-      // Fetch all purchases by the user 
-        // const purchases = await purchaseModel.find({ userId }).populate({
-        //     path: 'courseId',
-        //     select: 'title description questions',
-        //     populate: { path: 'questions' }
-        // });
-
-        // if (!purchases.length) {
-        //     return res.status(404).json({ message: "No courses found for this user" });
-        // }
-
-        // const user = await purchaseModel.findOne({ userId: userId });
-        // console.log(user)
-
-        // const [user, course] = await Promise.all([
-        //     purchaseModel.findOne({ userId: userId }),
-        //     CourseModel.findOne({ access: userId }).populate("questions")
-        // ]);
-        // console.log(user, course)
-        // // res.status(200).json(purchases);
+export { purchaseCourse, getUserCourses, getCousePaymentHistory }
 
 
 
-////FIXME - 

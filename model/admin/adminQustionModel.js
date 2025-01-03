@@ -32,6 +32,10 @@ const QuestionDataSchema = new mongoose.Schema({
         type: Array,
         required: true
     },
+    attemptedUsers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
     createdAt: {
         type: Date,
         default: Date.now,

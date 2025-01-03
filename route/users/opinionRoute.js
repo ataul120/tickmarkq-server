@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/create", authGuard, createOpinion); // ok
 router.get("/view", authGuard, getUserOpinion);// ok
-router.get("/view/all", getOpinionsAll); // all public-ok /admin control .
+router.get("/view/all", getOpinionsAll); // all public-ok / ok admin control .
 router.put("/update/:id", authGuard, editOpinion); // ok
 router.delete("/delete/:id", deleteOpinion); // ok
 
