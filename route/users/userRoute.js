@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, deleteUser, getAllUser, getUser, loginUser, updateUser } from '../../controller/users/usersController.js';
+import { createUser, deleteUser, getAllUser, getUser, loginUser, updateUser, userResetPassword } from '../../controller/users/usersController.js';
 import authGuard from '../../midlewere/authGuard.js';
 
 
@@ -19,6 +19,9 @@ router.get("/all", getAllUser);  /// ok
 
 // Update user by ID
 router.put("/update/:id", authGuard, updateUser);
+
+// reset password
+router.post("/reset", userResetPassword);
 
 // Delete user by ID
 router.delete("/delete/:id", authGuard, deleteUser);

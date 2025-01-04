@@ -128,6 +128,46 @@ export const updateUser = async (req, res) => {
 };
 
 
+// Reset the password
+export const userResetPassword = async (req, res) => {
+    try {
+        const { name, emailPhone, password } = req.body;
+
+        // Check if all fields are provided
+        if (!name || !emailPhone || !password) {
+            return res.status(400).json({
+                message: "All fields are required!",
+            });
+        }
+
+        // Check if the user exists
+        const isUser = await usersModel.findOne({ name, emailPhone });
+        if (!isUser) {
+            return res.status(404).json({
+                message: "User not found! Please provide valid credentials.",
+            });
+        }
+
+        // Password hashing
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Update user's password
+        isUser.password = hashedPassword;
+        await isUser.save();
+
+        return res.status(200).json({
+            message: "Password reset successfully!",
+        });
+    } catch (error) {
+        console.error("Error resetting password:", error);
+        return res.status(500).json({
+            message: "Password reset failed! Please try again.",
+        });
+    }
+};
+
+
 // Delete User
 export const deleteUser = async (req, res) => {
     const { userId } = req; // এটি authGuard থেকে আসবে
