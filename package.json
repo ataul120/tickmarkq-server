@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "nodemon index.js",
   "type": "module",
   "scripts": {
-    "start": "index.js",
+    "start": " nodemon index.js",
     "build": "npm i"
   },
   "author": "",

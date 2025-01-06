@@ -28,9 +28,9 @@ const createQuestion = async (req, res) => {
 
         // Push the new question ID to the course's questions array
         course.questions.push(savedQuestion._id);
- 
+
         await course.save();
-        
+
         return res.status(201).json({
             message: "Question added successfully!",
             data: savedQuestion,
@@ -47,7 +47,7 @@ const createQuestion = async (req, res) => {
 
 const getAllQuestion = async (req, res) => {
     try {
-        const questionData = await QuestionModel.find();
+        const questionData = await QuestionModel.find().sort({ createdAt: - 1 });
         return res.status(200).json(questionData);
     } catch (error) {
         return res.status(500).json({
@@ -56,6 +56,20 @@ const getAllQuestion = async (req, res) => {
         });
     }
 };
+
+
+//  get all free questions
+const getAllFreeQuestion = async (req, res) => {
+    try {
+        const freeQuestions = await QuestionModel.find({ questionCategory: { $in: ["free", "FREE"] } });
+        res.status(200).json(freeQuestions);
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to Fatch!"
+        })
+    }
+}
+
 
 const getQuestionById = async (req, res) => {
     try {
@@ -132,6 +146,7 @@ const deleteQuestion = async (req, res) => {
 export {
     createQuestion,
     getAllQuestion,
+    getAllFreeQuestion,
     getQuestionById,
     updateQuestion,
     deleteQuestion

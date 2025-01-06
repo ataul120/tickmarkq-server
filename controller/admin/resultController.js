@@ -13,7 +13,8 @@ const submitQuestionAndMakeResult = async (req, res) => {
             questions,
             rightAnswers,
             wrongAnswers,
-            totalMark
+            totalMark,
+            atATime
         } = req.body;
 
         //  <========== check Queation for Update IsSubmited Field  ================>
@@ -44,6 +45,7 @@ const submitQuestionAndMakeResult = async (req, res) => {
             rightAnswers,
             wrongAnswers,
             totalMark,
+            atATime
         });
 
         const result = await newResult.save();
