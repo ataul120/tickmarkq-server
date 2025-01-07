@@ -104,17 +104,17 @@ const updateQuestion = async (req, res) => {
 
         if (!questionData) {
             return res.status(404).json({
-                message: "Question data not found",
+                message: "Question Paper not found",
             });
         }
 
         return res.status(200).json({
-            message: "Question data updated successfully!",
+            message: "Question Paper updated successfully!",
             data: questionData,
         });
     } catch (error) {
         return res.status(500).json({
-            message: "Failed to update question data",
+            message: "Failed to update question Paper",
             error: error.message,
         });
     }
@@ -128,16 +128,16 @@ const deleteQuestion = async (req, res) => {
 
         if (!questionData) {
             return res.status(404).json({
-                message: "Question not found",
+                message: "Question Paper not found",
             });
         }
 
         return res.status(200).json({
-            message: "Question deleted successfully!",
+            message: "Question Paper deleted successfully!",
         });
     } catch (error) {
         return res.status(500).json({
-            message: "Failed to delete question",
+            message: "Failed to delete question Paper",
             error: error.message,
         });
     }
