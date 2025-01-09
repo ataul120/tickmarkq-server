@@ -58,17 +58,37 @@ const getAllQuestion = async (req, res) => {
 };
 
 
-//  get all free questions
+// Get all free questions
 const getAllFreeQuestion = async (req, res) => {
+    const { userId } = req;
+
     try {
-        const freeQuestions = await QuestionModel.find({ questionCategory: { $in: ["free", "FREE"] } });
-        res.status(200).json(freeQuestions);
+
+        const freeQuestions = await QuestionModel.find({
+            questionCategory: { $in: ["free", "FREE"] },
+            $or: [
+                { attemptedUsers: { $exists: false } },
+                { attemptedUsers: { $nin: [userId] } }
+            ]
+        });
+
+        if (!freeQuestions || freeQuestions.length === 0) {
+            return res.status(404).json({
+                message: "No Free Questions Available for You!"
+            });
+        }
+
+        return res.status(200).json(freeQuestions);
+
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to Fatch!"
-        })
+        console.error("Error fetching free questions:", error);
+        return res.status(500).json({
+            message: "Failed to Fetch Free Questions!"
+        });
     }
-}
+};
+
+
 
 
 const getQuestionById = async (req, res) => {
