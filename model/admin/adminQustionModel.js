@@ -28,6 +28,11 @@ const QuestionDataSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    passMark: {
+        type: Number,
+        required: true,
+        default: 33,
+    },
     questions: {
         type: Array,
         required: true
