@@ -10,6 +10,7 @@ import questionRouter from './route/admin/adminQuestionRoute.js';
 import resultRouter from './route/admin/resultRoute.js';
 import purchaseRouter from './route/users/purchaseRoute.js';
 import opinionRouter from './route/users/opinionRoute.js';
+import sliderRouter from './route/admin/sliderRoute.js';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use("/api/admin/auth", adminRouter);
 
 app.use("/api/admin/course", courseRouter)
 app.use("/api/admin/question", questionRouter)
+app.use("/api/admin/slider" , sliderRouter)
 
 
 /// results / user and admin

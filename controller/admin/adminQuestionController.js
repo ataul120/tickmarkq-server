@@ -1,6 +1,8 @@
 import CourseModel from "../../model/admin/adminCourseModel.js";
 import QuestionModel from "../../model/admin/adminQustionModel.js";
 
+import mongoose from "mongoose";
+
 const createQuestion = async (req, res) => {
     try {
         const { questionCategory, questionTitle, courseId, examDate, examTime, examDuration, passMark, questions } = req.body;
@@ -110,35 +112,67 @@ const getQuestionById = async (req, res) => {
     }
 };
 
-/// use after
+
+
 const updateQuestion = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedData = req.body;
+        const updatedData = { ...req.body };
 
+        // Clear attemptedUsers if update succeeds
+        updatedData.attemptedUsers = [];
+
+        // Find the existing question
+        const existingQuestion = await QuestionModel.findById(id);
+
+        if (!existingQuestion) {
+            return res.status(404).json({
+                message: "Question not found",
+            });
+        }
+
+        // Check if courseId is being updated
+        const oldCourseId = existingQuestion.courseId?.toString();
+        const newCourseId = updatedData.courseId?.toString();
+
+        // Update the question
         const questionData = await QuestionModel.findByIdAndUpdate(id, updatedData, {
-            new: true, // Return the updated document
+            new: true, // Return updated document
             runValidators: true, // Apply schema validation
         });
 
         if (!questionData) {
             return res.status(404).json({
-                message: "Question Paper not found",
+                message: "Question not updated successfully",
             });
         }
 
+        // If courseId is updated, update the course models
+        if (oldCourseId && oldCourseId !== newCourseId) {
+            // Remove from old course
+            await CourseModel.updateOne(
+                { _id: oldCourseId },
+                { $pull: { questions: id } }
+            );
+
+            // Add to new course
+            await CourseModel.updateOne(
+                { _id: newCourseId },
+                { $addToSet: { questions: id } }
+            );
+        }
+
         return res.status(200).json({
-            message: "Question Paper updated successfully!",
-            data: questionData,
+            message: "Question updated successfully!"
         });
-    } catch (error) {
-        console.log(error)
+    } catch (error) { 
         return res.status(500).json({
-            message: "Failed to update question Paper",
+            message: "Failed to update Question",
             error: error.message,
         });
     }
 };
+
 
 const deleteQuestion = async (req, res) => {
     try {

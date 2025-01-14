@@ -1,7 +1,5 @@
-// courseController.js
 
 import Course from "../../model/admin/adminCourseModel.js";
-import usersModel from "../../model/users/usersModel.js";
 
 
 // Create a new course (ok admin )
@@ -48,6 +46,9 @@ const getAllCourses = async (req, res) => {
     }
 };
 
+ 
+
+
 // Get a single course by ID
 const getCourseById = async (req, res) => {
     const { id } = req.params;
@@ -58,7 +59,6 @@ const getCourseById = async (req, res) => {
         }
         res.status(200).json(course);
     } catch (error) {
-        console.log("id", error)
         res.status(500).json({ message: 'Error fetching course', error });
     }
 };
@@ -70,14 +70,14 @@ const getCourseByCategory = async (req, res) => {
     if (!item) {
         return res.status(400).json({ message: 'Query parameter "item" is required' });
     }
-    
+
     try {
         const lowerCaseItem = item.toLowerCase();
 
         const courses = await Course.find({
             category: { $regex: new RegExp(`^${lowerCaseItem}$`, 'i') }, // Case-insensitive match
         });
- 
+
         // If no courses found, send a message 
         if (courses.length === 0) {
             return res.status(404).json({ message: 'No courses found for this category' });
@@ -129,7 +129,7 @@ const deleteCourse = async (req, res) => {
 // Export all controller functions
 export {
     createCourse,
-    getAllCourses,
+    getAllCourses, 
     getCourseById,
     getCourseByCategory,
     updateCourse,

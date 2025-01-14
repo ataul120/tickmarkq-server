@@ -117,6 +117,40 @@ const getResultById = async (req, res) => {
             error: error.message
         })
     }
+};
+
+
+const deleteResults = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { role } = req;
+
+        if (role === "admin") {
+            const deletedResult = await ResultModel.findByIdAndDelete(id);
+            if (!deletedResult) {
+                res.status(404).json({
+                    message: "Results Not Found"
+                })
+            }
+        } else {
+            res.status(401).json({
+                message: "You Cannot Delete!"
+            })
+        }
+
+
+
+        res.status(200).json({
+            message: "Result Deleted!"
+        })
+
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed To Delete Result",
+            error: error.message
+        })
+    }
 }
 
-export { submitQuestionAndMakeResult, getAllResults, getMyResult, getResultById }
+export { submitQuestionAndMakeResult, getAllResults, getMyResult, getResultById, deleteResults }
