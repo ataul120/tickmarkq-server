@@ -34,6 +34,32 @@ export const getSliders = async (req, res) => {
 };
 
 
+//  admin Auth Guatd dite hobe
+export const updateSliders = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const updatedSlider = await SliderModel.findByIdAndUpdate(id, {
+            $set: req.body
+        }, { new: true });
+
+        if (!updatedSlider) {
+            return res.status(404).json({
+                message: "Slider Not Found!"  // Fixed typo here
+            });
+        }
+
+        return res.status(200).json({
+            message: "Slider Updated!"  // Fixed typo here
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed To Update Slider"
+        });
+    }
+};
+
+
 
 //  admin Auth Guatd dite hobe
 export const deleteSliders = async (req, res) => {
