@@ -1,80 +1,4 @@
-// ===================================================================== 2 start
 
-// import Course from "../../model/admin/adminCourseModel.js";
-// import usersModel from "../../model/users/usersModel.js";
-
-/// user purchase the course  - verify the token , course id set the Database if user.course and course.access userdId
-
-//  <==========   backup hisebe rakha holo =======>
-// const purchaseCourse = async (req, res) => {
-//     try {
-//         const { userId } = req; // User ID from auth middleware
-//         const { courseId } = req.body; // Course ID from request body
-
-//         // Run both queries concurrently
-//         const [user, course] = await Promise.all([
-//             usersModel.findById(userId),
-//             Course.findById(courseId)
-//         ]);
-
-//         if (!course) {
-//             return res.status(404).json({
-//                 message: "Course Not Found!"
-//             });
-//         }
-
-//         if (!user) {
-//             return res.status(404).json({ message: 'User not found' });
-//         }
-
-//         // Check if the user has already purchased a course
-//         if (user.course) {
-//             return res.status(400).json({ message: "Already Purchased a Course" });
-//         }
-
-//         // Update user's course field
-//         await usersModel.findByIdAndUpdate(userId, { $set: { course: course._id } });
-
-//         // Add user ID to course access array (multiple users can buy the same course)
-//         await Course.findByIdAndUpdate(courseId, { $push: { access: user._id } });
-
-//         res.status(201).json({ message: "Purchase successful" });
-
-//     } catch (error) {
-//         res.status(400).json({
-//             message: 'Error Purchasing the Course',
-//             error: error.message
-//         });
-//     }
-// };
-
-
-
-// Fetch courses purchased by a specific user
-//  <====== backup hisebe rakha holo ==========>
-// const getUserCourses = async (req, res) => {
-//     try {
-//         const { userId } = req;
-
-//         // Find a single course where the userId is in the 'access' field
-//         const course = await Course.findOne({ access: userId }).populate('questions');
-
-
-//         if (!course) {
-//             return res.status(404).json({ message: "No courses found for this user" });
-//         }
-
-//         res.status(200).json(course);
-//     } catch (error) {
-//         res.status(500).json({ message: "Internal Server Error", error: error.message });
-//     }
-// };
-
-
-
-// ===================================================================== 2 end
-
-// import Purchase from "../../model/purchaseModel.js";
 import usersModel from "../../model/users/usersModel.js";
 import CourseModel from "../../model/admin/adminCourseModel.js";
 import purchaseModel from "../../model/users/purchaseModel.js";
@@ -96,7 +20,7 @@ const purchaseCourse = async (req, res) => {
         if (!user) return res.status(404).json({ message: "User Not Found!" });
 
         // Check if the user has already purchased the course
-        const existingPurchase = await purchaseModel.findOne({ userId, courseId });
+        const existingPurchase = await purchaseModel.findOne({ userId });
         if (existingPurchase) {
             return res.status(400).json({ message: "already purchased a Course!" });
         }
@@ -129,7 +53,7 @@ const purchaseCourse = async (req, res) => {
     }
 };
 
- 
+
 /// get purchase course and his questions
 const getUserCourses = async (req, res) => {
     try {
@@ -161,6 +85,39 @@ const getUserCourses = async (req, res) => {
 };
 
 
+
+//  akhono use kora hoyni
+const deleteMyPurchase = async (req, res) => {
+    try {
+        const { userId } = req; // User ID from token/middleware
+        const { courseId } = req.params; // Course ID to delete
+
+        // Find the user
+        const isUser = await usersModel.findById(userId);
+
+        if (!isUser) {
+            return res.status(404).json({
+                message: "User not found!"
+            });
+        }
+
+        isUser.purchases = []
+
+        await isUser.save();
+
+        res.status(200).json({
+            message: "Purchase deleted successfully!", 
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: "Delete failed!",
+            error: error.message,
+        });
+    }
+};
+
+
 // <======== user er purchase course o payment history ==========>
 const getCousePaymentHistory = async (req, res) => {
     try {
@@ -183,7 +140,7 @@ const getCousePaymentHistory = async (req, res) => {
 }
 
 
-export { purchaseCourse, getUserCourses, getCousePaymentHistory }
+export { purchaseCourse, getUserCourses, deleteMyPurchase, getCousePaymentHistory }
 
 
 

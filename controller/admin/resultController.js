@@ -12,6 +12,7 @@ const submitQuestionAndMakeResult = async (req, res) => {
             questionTitle,
             questions,
             rightAnswers,
+            skip,
             wrongAnswers,
             totalMark,
             atATime
@@ -43,6 +44,7 @@ const submitQuestionAndMakeResult = async (req, res) => {
             questionTitle,
             questions,
             rightAnswers,
+            skip,
             wrongAnswers,
             totalMark,
             atATime

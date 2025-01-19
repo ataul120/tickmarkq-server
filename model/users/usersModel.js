@@ -8,8 +8,7 @@ const userSchema = new mongoose.Schema({
     collage: { type: String },
     address: { type: String },
     role: { type: String, default: "user" },
-    isPayment: { type: Boolean, default: false },
-    // course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+    isPayment: { type: Boolean, default: false }, 
     purchases: [
         {
             type: mongoose.Schema.Types.ObjectId,

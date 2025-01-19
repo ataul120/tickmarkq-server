@@ -1,0 +1,14 @@
+import express from "express" 
+import { createWhyChoose, deleteWhyChoose, getWhyChooseById, getWhyChooseSections, updateWhyChoose } from "../../controller/contents/whyChooseController.js";
+
+const router = express.Router();
+
+
+router.post("/create", createWhyChoose);
+router.get("/get-all", getWhyChooseSections);
+router.get("/get", getWhyChooseById);
+router.put("/update/:id", updateWhyChoose);
+router.delete("/delete/:id", deleteWhyChoose);
+
+
+export default router;

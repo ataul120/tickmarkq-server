@@ -31,6 +31,10 @@ const ResultSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    skip: {
+        type: Number,
+        required: true
+    },
     totalMark: {
         type: Number,
         required: true
