@@ -3,14 +3,14 @@ import CourseInfoModel from "../../model/admin/courseInfoModel.js";
 // Create a new photo description
 export const createCourseInfo = async (req, res) => {
     try {
-        const { photo, title, description, btnText } = req.body;
+        const { photo, title, description, categorie, btnText } = req.body;
 
 
-        if (!title || !description || !btnText || !photo) {
+        if (!title || !description || !categorie || !btnText || !photo) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        const newInfo = new CourseInfoModel({ title, description, btnText, photo });
+        const newInfo = new CourseInfoModel({ title, description, categorie, btnText, photo });
         await newInfo.save();
 
         res.status(201).json({ message: " created successfully" });

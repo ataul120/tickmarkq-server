@@ -9,6 +9,10 @@ const CourseInfoSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    categorie: {
+        type: String,
+        required: true,
+    },
     btnText: {
         type: String,
         required: true,
