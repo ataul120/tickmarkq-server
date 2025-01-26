@@ -16,6 +16,7 @@ import noticeRouter from './route/admin/noticeRoute.js';
 import courseInfoRouter from './route/admin/courseInfoRoute.js';
 import quickLinksouter from './route/admin/quickLinkRoute.js';
 import whyChooseRouter from './route/contents/whyChooseRoutejs';
+import aboutRouter from './route/contents/aboutRoute.js';
 
 dotenv.config();
 
@@ -53,6 +54,7 @@ app.use("/api/content/courseInfo", courseInfoRouter)
 app.use("/api/content/quickLinks", quickLinksouter)
 
 app.use("/api/content/whychoose", whyChooseRouter)
+app.use("/api/content/about", aboutRouter)
 
 
 /// results / user and admin

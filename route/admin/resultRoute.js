@@ -10,7 +10,7 @@ router.post("/submit_question", authGuard, submitQuestionAndMakeResult) // ok - 
 router.get("/get/all", getAllResults); //for admim - ok
 router.get("/get/me", authGuard, getMyResult);  // only authenticate user and his result - ok
 router.get("/get/:id", getResultById);  // public route for details  -ok
-router.delete("/delete/:id", adminAuthGuard, deleteResults);  // Admin route for Delete  - 
+router.delete("/delete/:id",adminAuthGuard, deleteResults);  // Admin route for Delete  - 
 
 
 export default router

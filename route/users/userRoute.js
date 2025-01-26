@@ -1,6 +1,7 @@
 import express from 'express';
 import { createUser, deleteUser, getAllUser, getUser, loginUser, updateUser, userResetPassword } from '../../controller/users/usersController.js';
 import authGuard from '../../midlewere/authGuard.js';
+import adminAuthGuard from '../../midlewere/adminAuthGurad.js';
 
 
 const router = express.Router();
@@ -24,6 +25,6 @@ router.put("/update/:id", authGuard, updateUser);
 router.post("/reset", userResetPassword);
 
 // Delete user by ID
-router.delete("/delete/:id", authGuard, deleteUser);
+router.delete("/delete/:id", adminAuthGuard, deleteUser);
 
 export default router;   

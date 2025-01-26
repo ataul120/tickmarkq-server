@@ -124,35 +124,35 @@ const getResultById = async (req, res) => {
 
 const deleteResults = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { role } = req;
+        const { id } = req.params; // URL থেকে id প্যারামিটারটি বের করা
+        const { role } = req; // role চেক করা
 
-        if (role === "admin") {
-            const deletedResult = await ResultModel.findByIdAndDelete(id);
-            if (!deletedResult) {
-                res.status(404).json({
-                    message: "Results Not Found"
-                })
-            }
-        } else {
-            res.status(401).json({
-                message: "You Cannot Delete!"
-            })
+        if (role !== "admin") {
+            return res.status(401).json({
+                message: "You are not authorized to delete this result!",
+            });
         }
 
+        // ফলাফল খুঁজে এবং ডিলিট করার চেষ্টা
+        const deletedResult = await ResultModel.findByIdAndDelete(id);
 
+        if (!deletedResult) {
+            return res.status(404).json({
+                message: "Result not found!", // যদি রেকর্ড না থাকে
+            });
+        }
 
-        res.status(200).json({
-            message: "Result Deleted!"
-        })
-
-
+        // সফলভাবে ডিলিট হলে
+        return res.status(200).json({
+            message: "Result deleted successfully!",
+        });
     } catch (error) {
-        res.status(500).json({
-            message: "Failed To Delete Result",
-            error: error.message
-        })
+        // সার্ভার বা অন্য কোনো সমস্যা থাকলে
+        return res.status(500).json({
+            message: "Failed to delete the result!",
+            error: error.message,
+        });
     }
-}
+};
 
 export { submitQuestionAndMakeResult, getAllResults, getMyResult, getResultById, deleteResults }

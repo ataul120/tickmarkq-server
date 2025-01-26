@@ -11,15 +11,15 @@ router.post("/register", createAdmin); // almost ok
 router.post("/login", adminLogin);  //ok
 
 // get all admins
-router.get("/get/all", adminAuthGuard, getallAdmins) //
+router.get("/get/all", getallAdmins) //
 
 // get admin by id 
 router.get("/get/me", adminAuthGuard, getAdminById) //
 
 // Update Admin
-router.put("/update/:id", updateAdmin); //
+router.put("/update/:id", adminAuthGuard, updateAdmin); //
 
 // Delete Admin
-router.delete("/delete/:id", deleteAdmin); //
+router.delete("/delete/:id", adminAuthGuard, deleteAdmin); //
 
 export default router;

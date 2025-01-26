@@ -46,7 +46,7 @@ const getAllCourses = async (req, res) => {
     }
 };
 
- 
+
 
 
 // Get a single course by ID
@@ -129,7 +129,7 @@ const deleteCourse = async (req, res) => {
 // Export all controller functions
 export {
     createCourse,
-    getAllCourses, 
+    getAllCourses,
     getCourseById,
     getCourseByCategory,
     updateCourse,

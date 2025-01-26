@@ -170,14 +170,8 @@ export const userResetPassword = async (req, res) => {
 
 // Delete User
 export const deleteUser = async (req, res) => {
-    const { userId } = req; // এটি authGuard থেকে আসবে
+    const { id } = req.params
     try {
-        const { id } = req.params; // URL থেকে ইউজার ID
-
-        // শুধুমাত্র সেই ইউজার তার নিজের তথ্য ডিলিট করতে পারবে
-        if (userId !== id) {
-            return res.status(403).json({ error: "You are not authorized to delete this user" });
-        }
 
         const deletedUser = await usersModel.findByIdAndDelete(id);
         if (!deletedUser) {

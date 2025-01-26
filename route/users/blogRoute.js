@@ -16,6 +16,6 @@ router.get("/blog/admin/me", adminAuthGuard, getAdminBlogById); //
 router.put("/blogs/:id", updateBlog); // ok 
 
 router.put("/blog/status/:blogId", updateBlogStatusAdmin) ///  ok 
-router.delete("/blogs/:id", authGuard, deleteBlog); /// ok user
+router.delete("/blogs/:id", deleteBlog); /// ok user
 
 export default router;
