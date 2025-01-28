@@ -17,6 +17,7 @@ import courseInfoRouter from './route/admin/courseInfoRoute.js';
 import quickLinksouter from './route/admin/quickLinkRoute.js';
 import whyChooseRouter from './route/contents/whyChooseRoutejs';
 import aboutRouter from './route/contents/aboutRoute.js';
+import logoRouter from './route/admin/logoRoute.js';
 
 dotenv.config();
 
@@ -45,6 +46,8 @@ app.use("/api/admin/auth", adminRouter);
 
 app.use("/api/admin/course", courseRouter)
 app.use("/api/admin/question", questionRouter);
+
+app.use("/api/admin/logo", logoRouter)
 
 //  contents
 app.use("/api/content/slider", sliderRouter)

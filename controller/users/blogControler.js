@@ -110,13 +110,8 @@ export const getAdminBlogById = async (req, res) => {
 // Update a blog
 export const updateBlog = async (req, res) => {
     try {
-        // const { userId } = req;
-        const { id } = req.params;
 
-        // const isUserBlog = await Blog.findOne({ _id: id, user: userId });
-        // if (!isUserBlog) {
-        //     return res.status(403).json({ message: "Unauthorized to update this blog" });
-        // }
+        const { id } = req.params;
         const { author, ...updateFields } = req.body;
         const updatedBlog = await Blog.findByIdAndUpdate(
             id,

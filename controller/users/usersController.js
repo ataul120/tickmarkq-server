@@ -34,7 +34,6 @@ export const createUser = async (req, res) => {
         res.status(201).json({ message: "Register successfully", token });
     } catch (error) {
         res.status(400).json({ message: error.message });
-        console.log(error)
     }
 };
 
@@ -160,7 +159,6 @@ export const userResetPassword = async (req, res) => {
             message: "Password reset successfully!",
         });
     } catch (error) {
-        console.error("Error resetting password:", error);
         return res.status(500).json({
             message: "Password reset failed! Please try again.",
         });
