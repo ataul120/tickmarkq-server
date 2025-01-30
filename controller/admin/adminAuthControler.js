@@ -1,7 +1,46 @@
 import bcrypt from "bcryptjs";
 import adminAuthModel from "../../model/admin/adminAuthModel.js";
 import jwt from "jsonwebtoken"
-import { ADMIN_TOKEN_SECRET } from "../../constans.js";
+import { ADMIN_TOKEN_SECRET, ADMIN_IDENTIFER } from "../../constans.js";
+
+
+// verify admin or not . admin hole login form open hobe
+
+const verifyAdmin = async (req, res) => {
+    const { varifyAdmin } = req.body;
+    const identifier = ADMIN_IDENTIFER;
+
+    try {
+
+        const verfied = (identifier === varifyAdmin)
+
+        if (!verfied) {
+            res.status(200).json({
+                message: "Admin verification failed!"
+            });
+
+            return
+        }
+
+
+        // If verified, generate a JWT token
+        const token = jwt.sign({ admin: true }, ADMIN_TOKEN_SECRET);
+
+        // Send token in the response
+        res.status(200).json({
+            message: "Admin Verified",
+            token: token  
+        });
+
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed To Verify"
+        })
+    }
+}
+
+
 
 const createAdmin = async (req, res) => {
     const { photo, username, email, password, role } = req.body;
@@ -139,24 +178,24 @@ const updateAdmin = async (req, res) => {
 
 const deleteAdmin = async (req, res) => {
     try {
-        const { id } = req.params;  
+        const { id } = req.params;
 
-    
+
         const deletedAdmin = await adminAuthModel.findByIdAndDelete(id);
 
         if (!deletedAdmin) {
-        
+
             return res.status(404).json({
                 message: " not found!",
             });
         }
 
-       
+
         return res.status(200).json({
             message: " deleted successfully!",
         });
     } catch (error) {
-       
+
         console.error("Error deleting :", error.message);
         return res.status(500).json({
             message: "Internal server error",
@@ -166,4 +205,4 @@ const deleteAdmin = async (req, res) => {
 };
 
 
-export { createAdmin, adminLogin, getallAdmins, getAdminById, updateAdmin, deleteAdmin };
+export { verifyAdmin, createAdmin, adminLogin, getallAdmins, getAdminById, updateAdmin, deleteAdmin };

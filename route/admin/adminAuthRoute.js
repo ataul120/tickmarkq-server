@@ -1,11 +1,14 @@
 import express from "express";
-import { adminLogin, createAdmin, deleteAdmin, getAdminById, getallAdmins, updateAdmin } from "../../controller/admin/adminAuthControler.js";
+import { adminLogin, createAdmin, deleteAdmin, getAdminById, getallAdmins, updateAdmin, verifyAdmin } from "../../controller/admin/adminAuthControler.js";
 import adminAuthGuard from "../../midlewere/adminAuthGurad.js";
 
 const router = express.Router();
 
+// Verify Admin
+router.post("/verify", verifyAdmin); //  
+
 // Create Admin
-router.post("/register", createAdmin); // almost ok
+router.post("/register", createAdmin); // ok
 
 // Admin Login
 router.post("/login", adminLogin);  //ok
