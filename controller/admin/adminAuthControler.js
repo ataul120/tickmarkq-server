@@ -21,11 +21,7 @@ const verifyAdmin = async (req, res) => {
 
             return
         }
-
-
-        // If verified, generate a JWT token
-        // const token = jwt.sign({ admin: true }, ADMIN_TOKEN_SECRET);
-
+     
         // Send token in the response
         res.status(200).json({
             message: "Admin Verified",
@@ -74,7 +70,6 @@ const createAdmin = async (req, res) => {
 
         res.status(201).json({ message: `${role} created successfully` });
     } catch (error) {
-        console.error("Error Create:", error.message);
         res.status(500).json({ message: "Failed to create" });
     }
 };
@@ -111,7 +106,6 @@ const adminLogin = async (req, res) => {
             token,
         });
     } catch (error) {
-        console.error("Error during login:", error.message);
         res.status(500).json({ message: "Internal server error" });
     }
 };
@@ -122,7 +116,6 @@ const getallAdmins = async (req, res) => {
         const admins = await adminAuthModel.find().select("-password");
         res.status(200).json(admins)
     } catch (error) {
-        console.error("Error during  Get Admins:", error.message);
         res.status(500).json({ message: "Internal server error" });
     }
 }
@@ -139,7 +132,6 @@ const getAdminById = async (req, res) => {
         res.status(200).json(admin)
 
     } catch (error) {
-        console.error("Error during  Get Admin:", error.message);
         res.status(500).json({ message: "Internal server error" });
     }
 }
@@ -169,7 +161,6 @@ const updateAdmin = async (req, res) => {
 
         res.status(200).json({ message: "Admin updated successfully", updatedAdmin });
     } catch (error) {
-        console.error("Error updating admin:", error.message);
         res.status(500).json({ error: "Internal server error" });
     }
 };
@@ -196,7 +187,6 @@ const deleteAdmin = async (req, res) => {
         });
     } catch (error) {
 
-        console.error("Error deleting :", error.message);
         return res.status(500).json({
             message: "Internal server error",
             error: error.message,

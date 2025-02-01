@@ -39,7 +39,7 @@ const createCourse = async (req, res) => {
 const getAllCourses = async (req, res) => {
     try {
         const courses = await Course.find().sort({ createdAt: -1 })
-            .populate("questions")
+            
         res.status(200).json(courses);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching courses', error });
@@ -48,8 +48,8 @@ const getAllCourses = async (req, res) => {
 
 
 
-
-// Get a single course by ID
+// Get a single course by ID . ata user er exam dewar jonno use kora hoyeche , 
+// prothome userModel theke accessCourse ti get kore sei Course _id diye ai controller get kore ai course er qustion gulo populate kore dekhano hbe
 const getCourseById = async (req, res) => {
     const { id } = req.params;
     try {

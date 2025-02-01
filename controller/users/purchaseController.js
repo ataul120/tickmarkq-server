@@ -19,11 +19,11 @@ const purchaseCourse = async (req, res) => {
         if (!course) return res.status(404).json({ message: "Course Not Found!" });
         if (!user) return res.status(404).json({ message: "User Not Found!" });
 
-        // Check if the user has already purchased the course
-        const existingPurchase = await purchaseModel.findOne({ userId });
-        if (existingPurchase) {
+
+        // Check if the user has already purchased the course 
+        if (user.accessCourse) {
             return res.status(400).json({ message: "already purchased a Course!" });
-        }
+        };
 
         // Create a new purchase entry
         const purchase = new purchaseModel({
@@ -42,7 +42,11 @@ const purchaseCourse = async (req, res) => {
         const savedPurchase = await purchase.save();
 
         // Update the user model to include the new purchase ID in the user's purchase field
-        await usersModel.findByIdAndUpdate(userId, { $push: { purchases: savedPurchase._id } });
+        await usersModel.findByIdAndUpdate(userId, {
+            accessCourse: courseId, // store purhcase course _id
+            paymentStatus: true
+        });
+
 
         // Optionally update course access
         await CourseModel.findByIdAndUpdate(courseId, { $push: { access: userId } });
@@ -58,25 +62,19 @@ const purchaseCourse = async (req, res) => {
 const getUserCourses = async (req, res) => {
     try {
         const { userId } = req;
+        const isUser = await usersModel.findById(userId);
+        
+        if (!isUser) {
+            return res.status(404).json({ message: "You Are not a valid User" });
+        };
 
-
-        const purchase = await purchaseModel.findOne({ userId: userId });
-
-        if (!purchase) {
-            return res.status(404).json({ message: "No purchase found for this user" });
+        if (!isUser.accessCourse) {
+            return res.status(404).json({ message: "You Have no Course" });
         }
 
-        // Fetch the course and populate questions
-        const MyCourse = await CourseModel.findOne({ _id: purchase.courseId, access: userId }).populate("questions");
+        const getMyCourse = await CourseModel.findOne({ _id: isUser.accessCourse })
 
-        if (!MyCourse) {
-            return res.status(404).json({ message: "Course not found or access denied" });
-        }
-
-        const MyQuestions = MyCourse.questions?.filter(qs => qs.attemptedUsers && !qs.attemptedUsers.includes(userId));
-
-        // <<<<<<< course and his Questions return >>>>>>>>>>>>>
-        res.status(200).json({ course: MyCourse, questions: MyQuestions });
+        res.status(200).json(getMyCourse);
 
 
     } catch (error) {
@@ -89,33 +87,30 @@ const getUserCourses = async (req, res) => {
 //  akhono use kora hoyni
 const deleteMyPurchase = async (req, res) => {
     try {
-        const { userId } = req; // User ID from token/middleware
-        const { courseId } = req.params; // Course ID to delete
+        const { userId } = req; // Middleware থেকে userId পাওয়া যাচ্ছে
 
-        // Find the user
-        const isUser = await usersModel.findById(userId);
+        const isDeleted = await usersModel.updateOne(
+            { _id: userId }, // যেই ইউজারের ডাটা আপডেট করবো
+            { accessCourse: null } // accessCourse ফিল্ড null করে দিচ্ছি
+        );
 
-        if (!isUser) {
+        if (isDeleted.modifiedCount === 0) {
             return res.status(404).json({
-                message: "User not found!"
+                message: "No purchase found or already deleted!",
             });
         }
 
-        isUser.purchases = []
-
-        await isUser.save();
-
         res.status(200).json({
-            message: "Purchase deleted successfully!", 
+            message: "Purchased course deleted successfully!",
         });
-    } catch (error) {
-        console.log(error)
+    } catch (error) { 
         res.status(500).json({
             message: "Delete failed!",
             error: error.message,
         });
     }
 };
+
 
 
 // <======== user er purchase course o payment history ==========>

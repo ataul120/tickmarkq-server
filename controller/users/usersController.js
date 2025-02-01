@@ -6,7 +6,7 @@ import usersModel from '../../model/users/usersModel.js';
 // Create User
 export const createUser = async (req, res) => {
     try {
-        const { name, emailPhone, password, photo, collage, address } = req.body;
+        const { name, emailPhone, password, photo, collage, address, paymentStatus } = req.body;
 
         // Check if user already exists with the same email
         const existingUser = await usersModel.findOne({ emailPhone });
@@ -24,7 +24,8 @@ export const createUser = async (req, res) => {
             password: hashedPassword,  // Store the hashed password 
             photo,
             collage,
-            address
+            address,
+            paymentStatus: false,
         });
 
         const savedUser = await await newUser.save();

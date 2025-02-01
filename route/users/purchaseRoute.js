@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.post('/purchase', authGuard, purchaseCourse);  //  for user ok
 router.get('/get-purchase', authGuard, getUserCourses);  //  for user ok
-router.delete('/delete-purchase/:courseId', authGuard, deleteMyPurchase);  //  for user  
+router.delete('/delete-purchase', authGuard, deleteMyPurchase);  //  for user  
 router.get('/get-purchase-payment', authGuard, getCousePaymentHistory);  //  for user ok
 
 

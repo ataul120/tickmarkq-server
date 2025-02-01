@@ -60,6 +60,23 @@ const getAllQuestion = async (req, res) => {
     }
 };
 
+/// user prfile a purchase course er _id er upor vitti kore ai handler theke questions gulo return korbe
+const getMyQuestions = async (req, res) => {
+    const { courseId } = req.params;
+
+    try {
+
+        const myQuestions = await QuestionModel.find({ courseId });
+        res.status(200).json(myQuestions)
+
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed to fetch question data",
+            error: error.message,
+        });
+    }
+}
 
 // Get all free questions
 const getAllFreeQuestion = async (req, res) => {
@@ -165,7 +182,7 @@ const updateQuestion = async (req, res) => {
         return res.status(200).json({
             message: "Question updated successfully!"
         });
-    } catch (error) { 
+    } catch (error) {
         return res.status(500).json({
             message: "Failed to update Question",
             error: error.message,
@@ -200,6 +217,7 @@ const deleteQuestion = async (req, res) => {
 export {
     createQuestion,
     getAllQuestion,
+    getMyQuestions,
     getAllFreeQuestion,
     getQuestionById,
     updateQuestion,
