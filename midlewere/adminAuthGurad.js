@@ -16,8 +16,7 @@ const adminAuthGuard = async (req, res, next) => {
         const token = authorization.split(" ")[1];
         const decoded = Jwt.verify(token, ADMIN_TOKEN_SECRET);
         req.adminId = decoded.adminId;
-        req.role = decoded.role;
-        console.log(req)
+        req.role = decoded.role; 
         next();
 
     } catch (error) {

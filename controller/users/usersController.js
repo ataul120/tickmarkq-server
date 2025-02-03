@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'; // require এর বদলে import
 import bcrypt from 'bcryptjs';
 import usersModel from '../../model/users/usersModel.js';
+import Course from '../../model/admin/adminCourseModel.js';
 
 
 // Create User
@@ -112,12 +113,15 @@ export const updateUser = async (req, res) => {
         const { userId } = req; // এটি authGuard থেকে আসবে
         const { id } = req.params; // URL থেকে ইউজার ID
 
+        const body = req.body;
+
+        const { paymentStatus, accessCourse, ...updatedBody } = body
 
         if (userId !== id) {
             return res.status(403).json({ error: "You are not authorized to update this user" });
         }
 
-        const updatedUser = await usersModel.findByIdAndUpdate(id, req.body, { new: true });
+        const updatedUser = await usersModel.findByIdAndUpdate(id, updatedBody, { new: true });
         if (!updatedUser) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -165,6 +169,76 @@ export const userResetPassword = async (req, res) => {
         });
     }
 };
+
+
+// Payment Status and Access the Cource (Only admin manage this);
+
+export const accessTheCourse = async (req, res) => {
+    try {
+        const { adminId, role } = req;
+        const { paymentStatus, accessCourse } = req.body;
+        const { userId } = req.params;
+
+        // Ensure paymentStatus is treated as a boolean
+        const isPaymentCompleted = paymentStatus === "true";
+
+        const responseMessage = isPaymentCompleted
+            ? "User can access the course"
+            : "User's course is pending";
+
+        // Check if required fields are provided
+        if (paymentStatus === undefined || !accessCourse) {
+            return res.status(400).json({
+                message: "Payment status and course ID are required!"
+            });
+        }
+
+        // Check if course exists
+        const isCourse = await Course.findById(accessCourse);
+        if (!isCourse) {
+            return res.status(404).json({
+                message: "Course not found!"
+            });
+        }
+
+        // Only admin can perform this action
+        if (!adminId || role !== "admin") {
+            return res.status(403).json({
+                message: "You are not authorized to give access!"
+            });
+        }
+
+        // Update user's course access
+        const updatedUser = await usersModel.findByIdAndUpdate(
+            userId,
+            {
+                $set: { paymentStatus: isPaymentCompleted, accessCourse }
+            },
+            { new: true }
+        );
+
+        // Check if user update was successful
+        if (!updatedUser) {
+            return res.status(404).json({
+                message: "User not found!"
+            });
+        }
+
+        // Send response to the client
+        res.status(200).json({
+            message: responseMessage, // Dynamic response message
+            user: updatedUser
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed to update course access! Please try again.",
+            error: error.message
+        });
+    }
+};
+
+
 
 
 // Delete User

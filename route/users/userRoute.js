@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, deleteUser, getAllUser, getUser, loginUser, updateUser, userResetPassword } from '../../controller/users/usersController.js';
+import { accessTheCourse, createUser, deleteUser, getAllUser, getUser, loginUser, updateUser, userResetPassword } from '../../controller/users/usersController.js';
 import authGuard from '../../midlewere/authGuard.js';
 import adminAuthGuard from '../../midlewere/adminAuthGurad.js';
 
@@ -23,6 +23,10 @@ router.put("/update/:id", authGuard, updateUser);
 
 // reset password
 router.post("/reset", userResetPassword);
+
+
+// give access to the course (only admin);
+router.put("/access/:userId", adminAuthGuard, accessTheCourse)
 
 // Delete user by ID
 router.delete("/delete/:id", adminAuthGuard, deleteUser);

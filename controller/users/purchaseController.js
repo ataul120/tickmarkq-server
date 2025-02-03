@@ -63,12 +63,12 @@ const getUserCourses = async (req, res) => {
     try {
         const { userId } = req;
         const isUser = await usersModel.findById(userId);
-        
+
         if (!isUser) {
             return res.status(404).json({ message: "You Are not a valid User" });
         };
 
-        if (!isUser.accessCourse) {
+        if (!isUser.accessCourse || isUser.paymentStatus !== true) {
             return res.status(404).json({ message: "You Have no Course" });
         }
 
@@ -84,14 +84,23 @@ const getUserCourses = async (req, res) => {
 
 
 
-//  akhono use kora hoyni
+//  use in Profile Settings page
 const deleteMyPurchase = async (req, res) => {
     try {
         const { userId } = req; // Middleware থেকে userId পাওয়া যাচ্ছে
 
+
+        const isUserCourse = await usersModel.findById(userId);
+
+        if (!isUserCourse.accessCourse) {
+            return res.status(404).json({
+                message: "No purchase found or already deleted!"
+            })
+        }
+
         const isDeleted = await usersModel.updateOne(
-            { _id: userId }, // যেই ইউজারের ডাটা আপডেট করবো
-            { accessCourse: null } // accessCourse ফিল্ড null করে দিচ্ছি
+            { _id: userId },
+            { accessCourse: null }
         );
 
         if (isDeleted.modifiedCount === 0) {
@@ -103,7 +112,7 @@ const deleteMyPurchase = async (req, res) => {
         res.status(200).json({
             message: "Purchased course deleted successfully!",
         });
-    } catch (error) { 
+    } catch (error) {
         res.status(500).json({
             message: "Delete failed!",
             error: error.message,
