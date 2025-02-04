@@ -9,7 +9,7 @@ const PostLogo = async (req, res) => {
         const exist = await LogoModel.findOne();
 
         if (exist) {
-            res.status(400).json({
+           return res.status(400).json({
                 message: "Logo Already Created!"
             })
         }
@@ -54,7 +54,7 @@ const deleteLogo = async (req, res) => {
         const isDeleted = await LogoModel.findByIdAndDelete(logoId);
 
         if (!isDeleted) {
-            res.status(404).json({
+          return  res.status(404).json({
                 message: "Logo not found!"
             })
         };

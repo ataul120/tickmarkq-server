@@ -6,7 +6,9 @@ import { Port, MONGO_URL } from './constans.js';  // Port এবং MONGO_URL �
 app.listen(Port, async () => {
     try {
         console.log('Server is running');
-        await mongoose.connect(MONGO_URL);  // MongoDB connection
+        await mongoose.connect(MONGO_URL, {
+            dbName: "exam-managment"
+        });  // MongoDB connection
         console.log("Database Is Connected");
     } catch (error) {
         console.log("Database is not Connected : ", error);  // Error handling
