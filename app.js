@@ -18,6 +18,7 @@ import quickLinksouter from './route/admin/quickLinkRoute.js';
 import whyChooseRouter from './route/contents/whyChooseRoutejs';
 import aboutRouter from './route/contents/aboutRoute.js';
 import logoRouter from './route/admin/logoRoute.js';
+import bookRouter from './route/contents/bookRoute.js';
 
 dotenv.config();
 
@@ -58,7 +59,7 @@ app.use("/api/content/quickLinks", quickLinksouter)
 
 app.use("/api/content/whychoose", whyChooseRouter)
 app.use("/api/content/about", aboutRouter)
-
+app.use("/api/content/books" , bookRouter)
 
 /// results / user and admin
 app.use("/api/results", resultRouter)

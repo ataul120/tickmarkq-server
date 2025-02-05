@@ -85,9 +85,9 @@ const getAllFreeQuestion = async (req, res) => {
     try {
 
         const freeQuestions = await QuestionModel.find({
-            questionCategory: { $in: ["free", "FREE"] },
+            questionCategory: { $in: ["free", "FREE" , "Free"] },
             $or: [
-                { attemptedUsers: { $exists: false } },
+                // { attemptedUsers: { $exists: false } },
                 { attemptedUsers: { $nin: [userId] } }
             ]
         });

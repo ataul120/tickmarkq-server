@@ -97,9 +97,7 @@ const adminLogin = async (req, res) => {
             role: admin.role,
         };
 
-        const token = jwt.sign(payload, ADMIN_TOKEN_SECRET, {
-            expiresIn: "3h",
-        });
+        const token = jwt.sign(payload, ADMIN_TOKEN_SECRET);
 
         res.status(200).json({
             message: "Login successful",
