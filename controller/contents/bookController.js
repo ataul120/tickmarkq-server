@@ -3,21 +3,21 @@ import Book from "../../model/contents/bookModel.js";
 // Create a new book
 export const CreateBook = async (req, res) => {
     try {
-        const { coverPhoto, bookName, title } = req.body;
+        const { coverPhoto, bookName, title, bookLink } = req.body;
 
         // Create a new book document
         const newBook = new Book({
             coverPhoto,
             bookName,
             title,
+            bookLink
         });
 
         // Save the book to the database
         const savedBook = await newBook.save();
 
         res.status(201).json({
-            success: true,
-            data: savedBook,
+            message: "Book Added Succesfull"
         });
     } catch (error) {
         res.status(500).json({
@@ -31,13 +31,9 @@ export const CreateBook = async (req, res) => {
 export const getAllBooks = async (req, res) => {
     try {
         const books = await Book.find();
-        res.status(200).json({
-            success: true,
-            data: books,
-        });
+        res.status(200).json(books);
     } catch (error) {
         res.status(500).json({
-            success: false,
             message: 'Server error',
         });
     }
@@ -55,10 +51,7 @@ export const getBookById = async (req, res) => {
             });
         }
 
-        res.status(200).json({
-            success: true,
-            data: book,
-        });
+        res.status(200).json(book);
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -79,19 +72,16 @@ export const updateBook = async (req, res) => {
         );
 
         if (!updatedBook) {
-            return res.status(404).json({
-                success: false,
+            return res.status(404).json({ 
                 message: 'Book not found',
             });
         }
 
         res.status(200).json({
-            success: true,
-            data: updatedBook,
+           message : "Book Updated "
         });
-    } catch (error) { 
-        res.status(500).json({
-            success: false,
+    } catch (error) {
+        res.status(500).json({ 
             message: 'Server error',
         });
     }
@@ -113,7 +103,7 @@ export const deleteBook = async (req, res) => {
             success: true,
             message: 'Book deleted successfully',
         });
-    } catch (error) { 
+    } catch (error) {
         res.status(500).json({
             success: false,
             message: 'Server error',

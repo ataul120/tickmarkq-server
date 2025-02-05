@@ -16,6 +16,11 @@ const bookSchema = new mongoose.Schema({
         required: true,  
         trim: true,   
     },
+    bookLink: {
+        type: String,
+        required: true,  
+        trim: true,   
+    },
 }, { timestamps: true });  
 
 // Create the model
