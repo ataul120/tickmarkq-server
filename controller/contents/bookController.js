@@ -63,25 +63,25 @@ export const getBookById = async (req, res) => {
 // Update a book by its ID
 export const updateBook = async (req, res) => {
     try {
-        const { coverPhoto, bookName, title } = req.body;
+        const { coverPhoto, bookName, title, bookLink } = req.body;
 
         const updatedBook = await Book.findByIdAndUpdate(
             req.params.id,
-            { coverPhoto, bookName, title },
+            { coverPhoto, bookName, title, bookLink },
             { new: true, runValidators: true }
         );
 
         if (!updatedBook) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 message: 'Book not found',
             });
         }
 
         res.status(200).json({
-           message : "Book Updated "
+            message: "Book Updated "
         });
     } catch (error) {
-        res.status(500).json({ 
+        res.status(500).json({
             message: 'Server error',
         });
     }
