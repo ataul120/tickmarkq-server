@@ -19,6 +19,7 @@ import whyChooseRouter from './route/contents/whyChooseRoutejs';
 import logoRouter from './route/admin/logoRoute.js';
 import bookRouter from './route/contents/bookRoute.js';
 import aboutRouter from './route/contents/aboutRoute.js';
+import seoRouter from './route/admin/seoRoute.js';
 
 dotenv.config();
 
@@ -63,6 +64,10 @@ app.use("/api/content/books" , bookRouter)
 
 /// results / user and admin
 app.use("/api/results", resultRouter)
+
+// seo route
+app.use("/api/admin/seo" , seoRouter)
+
 
 
 // Handle undefined routes
