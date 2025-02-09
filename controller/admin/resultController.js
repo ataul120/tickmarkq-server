@@ -15,6 +15,8 @@ const submitQuestionAndMakeResult = async (req, res) => {
             skip,
             wrongAnswers,
             totalMark,
+            passMark,
+            isPass,
             atATime
         } = req.body;
 
@@ -47,6 +49,8 @@ const submitQuestionAndMakeResult = async (req, res) => {
             skip,
             wrongAnswers,
             totalMark,
+            passMark ,
+            isPass,
             atATime
         });
 
@@ -59,8 +63,7 @@ const submitQuestionAndMakeResult = async (req, res) => {
             message: "Question submitted successfully."
         });
 
-    } catch (error) {
-        console.log(error);
+    } catch (error) { 
         res.status(500).json({
             message: "Internal Server Error",
             error: error.message

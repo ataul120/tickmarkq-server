@@ -39,6 +39,14 @@ const ResultSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    passMark: {
+        type: Number,
+        required: true
+    },
+    isPass: {
+        type: Boolean,
+        required: true
+    },
     atATime: {
         type: Boolean,
         default: false
