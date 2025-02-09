@@ -20,7 +20,7 @@ import logoRouter from './route/admin/logoRoute.js';
 import bookRouter from './route/contents/bookRoute.js';
 import aboutRouter from './route/contents/aboutRoute.js';
 import seoRouter from './route/admin/seoRoute.js';
-import bkashRouter from './test/route/bkashRoute.js';
+// import bkashRouter from './test/route/bkashRoute.js';
 
 dotenv.config();
 
