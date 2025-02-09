@@ -72,7 +72,7 @@ app.use("/api/admin/seo" , seoRouter)
 
 
 //  bkash route for testing
-app.use("/api/bkash" , bkashRouter)
+// app.use("/api/bkash" , bkashRouter)
 
 
 // Handle undefined routes
