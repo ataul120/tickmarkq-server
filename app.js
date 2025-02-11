@@ -19,8 +19,8 @@ import whyChooseRouter from './route/contents/whyChooseRoutejs';
 import logoRouter from './route/admin/logoRoute.js';
 import bookRouter from './route/contents/bookRoute.js';
 import aboutRouter from './route/contents/aboutRoute.js';
-import seoRouter from './route/admin/seoRoute.js';
-// import bkashRouter from './test/route/bkashRoute.js';
+import seoRouter from './route/admin/seoRoute.js'; 
+import bkashRouter from './route/bkash/bkashRoute.js';
 
 dotenv.config();
 
@@ -69,7 +69,7 @@ app.use("/api/results", resultRouter)
 // seo route
 app.use("/api/admin/seo" , seoRouter)
 
-
+app.use("/api/bkash" , bkashRouter)
 
 //  bkash route for testing
 // app.use("/api/bkash" , bkashRouter)

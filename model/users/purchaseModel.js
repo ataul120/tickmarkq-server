@@ -11,14 +11,15 @@ const purchaseSchema = new mongoose.Schema({
         ref: 'Course',
         required: true
     },
-    paymentHistory: {
-        amount: Number,
-        method: String, // e.g., 'bkash', 'card'
-        bkashNumber: Number,
-        transactionId: String,
-        status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
-        date: { type: Date, default: Date.now }
+    paymentId: {
+        type: String,
+        required: true
     },
+    status: {
+        type: String,
+        enum: ['pending', 'completed', 'failed'], default: 'pending'
+    },
+    paymentHistory: { type: Object, default: {} },
     purchasedAt: {
         type: Date,
         default: Date.now
