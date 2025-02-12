@@ -85,9 +85,7 @@ export const createPayment = async (req, res) => {
                 courseId,
                 amount,
             };
-            cache.put("payment_body", newPurchase, 600000);
-
-            // await newPurchase.save()
+            cache.put("payment_body", newPurchase, 600000); 
 
             res.json({ success: true, paymentID: data.paymentID, bkashURL: data.bkashURL });
 
@@ -121,8 +119,7 @@ export const executePayment = async (paymentID) => {
         
         return data
 
-    } catch (error) {
-        console.error("Error executing payment:", error);
+    } catch (error) { 
         res.status(500).json({
             message: "Payment Failed!"
         })

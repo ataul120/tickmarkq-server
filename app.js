@@ -8,7 +8,6 @@ import adminRouter from './route/admin/adminAuthRoute.js';
 import courseRouter from './route/admin/adminCourseRoute.js';
 import questionRouter from './route/admin/adminQuestionRoute.js';
 import resultRouter from './route/admin/resultRoute.js';
-import purchaseRouter from './route/users/purchaseRoute.js';
 import opinionRouter from './route/users/opinionRoute.js';
 import sliderRouter from './route/admin/sliderRoute.js';
 import headlineRouter from './route/admin/headlineRoute.js';
@@ -40,7 +39,6 @@ app.get("/", (req, res) => {
 // User Routes
 app.use("/api/user", userRouter);
 app.use("/api/user", blogRouter);
-app.use("/api/user/course", purchaseRouter);
 app.use("/api/user/opinion", opinionRouter);
 
 

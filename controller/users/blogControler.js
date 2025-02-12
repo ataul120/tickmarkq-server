@@ -51,39 +51,6 @@ export const createAdminBlog = async (req, res) => {
     }
 };
 
-
-// Get all blogs
-export const getAllBlogs = async (req, res) => {
-    try {
-        const blogs = await Blog.find()
-            // .populate("user", "name")
-            .sort({ createdAt: -1 });
-        res.status(200).json(blogs);
-    } catch (error) {
-        res.status(500).json({ message: "Failed to fetch blogs", error: error.message });
-    }
-};
-
-// <======== Get a single blog by ID (login users blog)  =========>
-export const getuserBlogById = async (req, res) => {
-    try {
-        const { userId } = req;
-        // <==== const convertUserId = new ObjectId(userId);  =======>  never use at a time
-        const convertUserId = new ObjectId(userId);
-        const blogs = await Blog.find({ "author.userId": convertUserId })
-            .sort({ createdAt: -1 });
-
-        if (blogs && blogs.length <= 0) {
-            return res.status(404).json({ message: "Blog not found" });
-        }
-
-        res.status(200).json(blogs);
-    } catch (error) {
-        res.status(500).json({ message: "Failed to fetch blog", error: error.message });
-    }
-};
-
-
 export const getAdminBlogById = async (req, res) => {
     try {
         const { adminId } = req;
@@ -107,6 +74,66 @@ export const getAdminBlogById = async (req, res) => {
     }
 };
 
+
+// Update a blog
+export const updateBlogByAdmin = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+        const { author, ...updateFields } = req.body;
+        const updatedBlog = await Blog.findByIdAndUpdate(
+            id,
+            { $set: updateFields },
+            { new: true }
+        );
+
+        if (!updatedBlog) {
+            return res.status(404).json({ message: "Blog not found" });
+        }
+
+        res.status(200).json({ message: "Blog updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to update blog", error: error.message });
+    }
+};
+
+
+
+// Get all blogs
+export const getAllBlogs = async (req, res) => {
+    try {
+        const blogs = await Blog.find()
+            // .populate("user", "name")
+            .sort({ createdAt: -1 });
+        res.status(200).json(blogs);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch blogs", error: error.message });
+    }
+};
+
+
+// <======== Get a single blog by ID (login users blog)  =========>
+export const getuserBlogById = async (req, res) => {
+    try {
+        const { userId } = req;
+        // <==== const convertUserId = new ObjectId(userId);  =======>  never use at a time
+        const convertUserId = new ObjectId(userId);
+        const blogs = await Blog.find({ "author.userId": convertUserId })
+            .sort({ createdAt: -1 });
+
+        if (blogs && blogs.length <= 0) {
+            return res.status(404).json({ message: "Blog not found" });
+        }
+
+        res.status(200).json(blogs);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch blog", error: error.message });
+    }
+};
+
+
+
+
 // Update a blog
 export const updateBlog = async (req, res) => {
     try {
@@ -123,7 +150,7 @@ export const updateBlog = async (req, res) => {
             return res.status(404).json({ message: "Blog not found" });
         }
 
-        res.status(200).json({ message: "Blog updated successfully", blog: updatedBlog });
+        res.status(200).json({ message: "Blog updated successfully" });
     } catch (error) {
         res.status(500).json({ message: "Failed to update blog", error: error.message });
     }
