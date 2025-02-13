@@ -14,12 +14,13 @@ import headlineRouter from './route/admin/headlineRoute.js';
 import noticeRouter from './route/admin/noticeRoute.js';
 import courseInfoRouter from './route/admin/courseInfoRoute.js';
 import quickLinksouter from './route/admin/quickLinkRoute.js';
-import whyChooseRouter from './route/contents/whyChooseRoutejs'; 
+import whyChooseRouter from './route/contents/whyChooseRoutejs';
 import logoRouter from './route/admin/logoRoute.js';
 import bookRouter from './route/contents/bookRoute.js';
 import aboutRouter from './route/contents/aboutRoute.js';
-import seoRouter from './route/admin/seoRoute.js'; 
+import seoRouter from './route/admin/seoRoute.js';
 import bkashRouter from './route/bkash/bkashRoute.js';
+import purChaseRouter from './route/users/myCourseRoute.js';
 
 dotenv.config();
 
@@ -38,7 +39,8 @@ app.get("/", (req, res) => {
 
 // User Routes
 app.use("/api/user", userRouter);
-app.use("/api/user", blogRouter);
+app.use("/api/user", userRouter);
+app.use("/api/user/course", purChaseRouter);
 app.use("/api/user/opinion", opinionRouter);
 
 
@@ -59,15 +61,15 @@ app.use("/api/content/quickLinks", quickLinksouter)
 
 app.use("/api/content/whychoose", whyChooseRouter)
 app.use("/api/content/aboutpage", aboutRouter)
-app.use("/api/content/books" , bookRouter)
+app.use("/api/content/books", bookRouter)
 
 /// results / user and admin
 app.use("/api/results", resultRouter)
 
 // seo route
-app.use("/api/admin/seo" , seoRouter)
+app.use("/api/admin/seo", seoRouter)
 
-app.use("/api/bkash" , bkashRouter)
+app.use("/api/bkash", bkashRouter)
 
 //  bkash route for testing
 // app.use("/api/bkash" , bkashRouter)
