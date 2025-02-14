@@ -75,7 +75,7 @@ export const getAdminBlogById = async (req, res) => {
 };
 
 
-// Update a blog
+// Update a blog by admin
 export const updateBlogByAdmin = async (req, res) => {
     try {
 

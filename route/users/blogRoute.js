@@ -12,7 +12,7 @@ router.get("/blog/me", authGuard, getuserBlogById); // ok
 
 router.post("/blogs/admin", adminAuthGuard, createAdminBlog); ///  for admin ok 
 router.put("/blogs/admin/:id", adminAuthGuard, updateBlogByAdmin); ///  for admin  
-router.get("/blog/admin/me", adminAuthGuard, getAdminBlogById); //  
+router.get("/blogs/admin/me", adminAuthGuard, getAdminBlogById); //  
 
 // router.put("/blogs/:id", authGuard, updateBlog); // next time  
 router.put("/blogs/:id", updateBlog); // ok 
