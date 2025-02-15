@@ -14,6 +14,7 @@ import headlineRouter from './route/admin/headlineRoute.js';
 import noticeRouter from './route/admin/noticeRoute.js';
 import courseInfoRouter from './route/admin/courseInfoRoute.js';
 import quickLinksouter from './route/admin/quickLinkRoute.js';
+import freeResourseRouter from './route/admin/freeResourseRoute.js';
 import whyChooseRouter from './route/contents/whyChooseRoutejs';
 import logoRouter from './route/admin/logoRoute.js';
 import bookRouter from './route/contents/bookRoute.js';
@@ -58,6 +59,7 @@ app.use("/api/content/headline", headlineRouter)
 app.use("/api/content/notice", noticeRouter)
 app.use("/api/content/courseInfo", courseInfoRouter)
 app.use("/api/content/quickLinks", quickLinksouter)
+app.use("/api/content/freeresourse", freeResourseRouter)
 
 app.use("/api/content/whychoose", whyChooseRouter)
 app.use("/api/content/aboutpage", aboutRouter)
