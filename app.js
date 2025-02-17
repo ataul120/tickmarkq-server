@@ -22,6 +22,7 @@ import aboutRouter from './route/contents/aboutRoute.js';
 import seoRouter from './route/admin/seoRoute.js';
 import bkashRouter from './route/bkash/bkashRoute.js';
 import purChaseRouter from './route/users/myCourseRoute.js';
+import footerRouter from './route/admin/footerRoute.js';
 
 dotenv.config();
 
@@ -64,6 +65,7 @@ app.use("/api/content/freeresourse", freeResourseRouter)
 app.use("/api/content/whychoose", whyChooseRouter)
 app.use("/api/content/aboutpage", aboutRouter)
 app.use("/api/content/books", bookRouter)
+app.use("/api/content/footer", footerRouter)
 
 /// results / user and admin
 app.use("/api/results", resultRouter)
@@ -73,8 +75,6 @@ app.use("/api/admin/seo", seoRouter)
 
 app.use("/api/bkash", bkashRouter)
 
-//  bkash route for testing
-// app.use("/api/bkash" , bkashRouter)
 
 
 // Handle undefined routes
