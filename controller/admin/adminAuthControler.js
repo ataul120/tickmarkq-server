@@ -5,6 +5,7 @@ import { ADMIN_TOKEN_SECRET, ADMIN_IDENTIFER } from "../../constans.js";
 
 
 // verify admin or not . admin hole login form open hobe
+// verify admin or not . admin hole login form open hobe
 
 const verifyAdmin = async (req, res) => {
     const { varifyAdmin } = req.body;
