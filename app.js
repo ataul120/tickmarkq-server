@@ -23,9 +23,9 @@ import seoRouter from './route/admin/seoRoute.js';
 import bkashRouter from './route/bkash/bkashRoute.js';
 import purChaseRouter from './route/users/myCourseRoute.js';
 import footerRouter from './route/admin/footerRoute.js';
+import adminScretRouter from './route/admin/adminSecretRoute.js';
 
 dotenv.config();
-
 const app = express();
 
 // Middleware
@@ -48,6 +48,7 @@ app.use("/api/user/opinion", opinionRouter);
 
 // admin course route
 app.use("/api/admin/auth", adminRouter);
+app.use("/api/admin/secret", adminScretRouter)
 
 app.use("/api/admin/course", courseRouter)
 app.use("/api/admin/question", questionRouter);

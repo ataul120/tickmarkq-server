@@ -45,7 +45,7 @@ export const getUserOpinion = async (req, res) => {
             return res.status(404).json({ message: "Not A Valid User!" });
         }
 
-        const opinions = await Opinion.find().sort({ createdAt: -1 });
+        const opinions = await Opinion.find({ userId }).sort({ createdAt: -1 });
         res.status(200).json(opinions);
     } catch (error) {
         console.error(error);

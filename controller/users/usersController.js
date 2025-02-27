@@ -7,7 +7,7 @@ import Course from '../../model/admin/adminCourseModel.js';
 // Create User
 export const createUser = async (req, res) => {
     try {
-        const { name, emailPhone, password, photo, collage, address, paymentStatus } = req.body;
+        const { name, emailPhone, password, photo, collage, address } = req.body;
 
         // Check if user already exists with the same email
         const existingUser = await usersModel.findOne({ emailPhone });
@@ -29,7 +29,7 @@ export const createUser = async (req, res) => {
             paymentStatus: false,
         });
 
-        const savedUser = await await newUser.save();
+        const savedUser = await newUser.save();
         // Create JWT token
         const token = jwt.sign({ userId: savedUser._id }, process.env.TOKEN_SECRET);
 
@@ -47,7 +47,7 @@ export const loginUser = async (req, res) => {
 
         const user = await usersModel.findOne({ emailPhone });
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "Invalid credentials" });
         }
 
         // Compare password
@@ -148,7 +148,7 @@ export const userResetPassword = async (req, res) => {
         const isUser = await usersModel.findOne({ name, emailPhone });
         if (!isUser) {
             return res.status(404).json({
-                message: "User not found! Please provide valid credentials.",
+                message: "Please provide valid credentials.",
             });
         }
 
