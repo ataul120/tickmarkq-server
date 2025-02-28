@@ -72,7 +72,6 @@ export const getUser = async (req, res) => {
     try {
         const user = await usersModel.findById(userId)
             .select('-password')
-            .populate("purchases")
             .populate("results")
         // .populate({
         //     path: 'purchases', // First populate course
