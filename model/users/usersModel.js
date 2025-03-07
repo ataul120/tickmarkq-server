@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     accessCourse:
     {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Purchase'
+        ref: 'Course'
     },
     results: [
         {

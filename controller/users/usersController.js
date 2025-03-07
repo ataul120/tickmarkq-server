@@ -73,10 +73,8 @@ export const getUser = async (req, res) => {
         const user = await usersModel.findById(userId)
             .select('-password')
             .populate("results")
-        // .populate({
-        //     path: 'purchases', // First populate course
-        //     populate: { path: 'questions' } // Then populate questions inside course
-        // });
+
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -92,13 +90,13 @@ export const getAllUser = async (req, res) => {
     try {
         const user = await usersModel.find()
             .select('-password')
-        // .populate({
-        //     path: 'course', // First populate course
-        //     populate: { path: 'questions' } // Then populate questions inside course
-        // });
+            .populate("accessCourse" , " title _id")
+            .exec();
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
+
         res.status(200).json(user);  // Send user data
     } catch (error) {
         res.status(500).json({ message: "Internal server error", error: error.message });
